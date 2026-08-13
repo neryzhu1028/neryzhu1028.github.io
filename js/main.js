@@ -209,6 +209,12 @@
 
   /* ---------- 加载内容 ---------- */
   function loadContent() {
+    // 检测 file:// 协议——浏览器禁止 file:// 下的 fetch
+    var isFile = location.protocol === "file:";
+    if (isFile) {
+      showFileProtocolHelp();
+      return;
+    }
     fetch("data/content.json", { cache: "no-store" })
       .then(function (res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
@@ -225,13 +231,39 @@
   }
 
   function showLoadError(err) {
-    var p = document.createElement("p");
+    var p = document.createElement("div");
     p.style.cssText =
       "position:fixed;top:0;left:0;right:0;z-index:9999;background:#dc2626;color:#fff;" +
-      "padding:12px 16px;text-align:center;font-size:14px;";
-    p.textContent = "⚠️ 内容加载失败（data/content.json），当前显示的是备用内容。请检查文件是否已部署。";
+      "padding:16px 20px;text-align:center;font-size:14px;font-family:system-ui,sans-serif;";
+    p.innerHTML =
+      '⚠️ 内容加载失败（data/content.json），当前显示的是备用内容。请检查文件是否已部署，或刷新页面重试。<br>' +
+      '<small style="opacity:.85;">错误详情：' + esc(String(err && err.message || err)) + '</small>';
     document.body.prepend(p);
     console.error("Content load error:", err);
+  }
+
+  /* file:// 协议下 fetch 必然失败，给出明确的打开方式指引 */
+  function showFileProtocolHelp() {
+    var overlay = document.createElement("div");
+    overlay.style.cssText =
+      "position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#f5f3ff,#fff);" +
+      "display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui,sans-serif;";
+    overlay.innerHTML =
+      '<div style="max-width:520px;background:#fff;border-radius:16px;padding:32px 28px;box-shadow:0 10px 40px rgba(0,0,0,.12);">' +
+      '  <div style="font-size:48px;margin-bottom:12px;">📂</div>' +
+      '  <h2 style="margin:0 0 12px;color:#111;font-size:22px;">不能用 file:// 协议直接打开页面</h2>' +
+      '  <p style="color:#555;line-height:1.7;margin:0 0 16px;">浏览器禁止 file:// 协议下的网络请求，所以双击 <code>index.html</code> 会显示空白。</p>' +
+      '  <div style="background:#f3f4f6;border-radius:10px;padding:14px 16px;margin-bottom:16px;">' +
+      '    <p style="margin:0 0 8px;color:#111;font-weight:600;">✅ 正确的打开方式（任选其一）：</p>' +
+      '    <ol style="margin:0;padding-left:20px;color:#333;line-height:1.9;">' +
+      '      <li><b>双击</b>项目目录里的 <code style="background:#fff;padding:1px 6px;border-radius:4px;">启动后台.command</code>（推荐，自动启动服务器并打开后台）</li>' +
+      '      <li>在终端运行：<code style="background:#fff;padding:1px 6px;border-radius:4px;">cd 项目目录 && python3 -m http.server 8000</code>，然后浏览器访问 <a href="http://localhost:8000/" style="color:#7c3aed;">http://localhost:8000/</a></li>' +
+      '      <li>直接访问线上：<a href="https://neryzhu1028.github.io/" target="_blank" style="color:#7c3aed;">neryzhu1028.github.io</a></li>' +
+      '    </ol>' +
+      '  </div>' +
+      '  <button onclick="location.href=\'http://localhost:8000/\'" style="background:#7c3aed;color:#fff;border:none;padding:12px 24px;border-radius:10px;font-size:15px;cursor:pointer;font-weight:600;">如果服务器已启动，点击这里</button>' +
+      '</div>';
+    document.body.appendChild(overlay);
   }
 
   /* ============================================================
