@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "site": {
+    "brandMark": "艾",
+    "brandName": "艾斯利",
+    "pageTitle": "艾斯利 · 科技产业深度观察",
+    "description": "艾斯利的个人网站：科技与产业深度分析文章、课程与旅拍视频作品集。关注 AI 算力、华为产业链、国产芯片与宏观经济。",
+    "author": "艾斯利",
+    "ogDescription": "项目 / 课程 / 旅拍视频，一个属于我的互联网主页。",
+    "footerText": "© 2026 艾斯利 · 用大白话讲硬核科技",
+    "socialLinks": [
+      { "label": "今日头条", "url": "#" },
+      { "label": "哔哩哔哩", "url": "#" },
+      { "label": "邮箱", "url": "#" }
+    ]
+  },
+  "hero": {
+    "eyebrow": "人工智能 · 干活技能 · 旅拍视频 · 产品开箱",
+    "titlePrefix": "你好，我是",
+    "titleHighlight": "艾斯利",
+    "subtitle": "用通俗的语言，拆解 AI 算力、华为产业链与国产芯片的硬核世界。这里收录我的深度文章、课程、数码开箱与旅拍视频。",
+    "primaryBtn": { "text": "浏览我的项目", "href": "#projects" },
+    "ghostBtn": { "text": "观看旅拍视频", "href": "#videos" },
+    "stats": [
+      { "num": "50+", "label": "深度文章" },
+      { "num": "20+", "label": "开箱测评" },
+      { "num": "3", "label": "系列课程" },
+      { "num": "20+", "label": "旅拍视频" }
+    ]
+  },
+  "projects": {
+    "tag": "PROJECTS",
+    "title": "精选项目",
+    "desc": "长期追踪科技与产业变革，产出深度分析文章与研究报告。",
+    "moreText": "查看全部文章 →",
+    "moreHref": "#",
+    "items": [
+      { "cover": "cover-1", "image": "", "emoji": "🌏", "category": "宏观对比", "title": "中美日经济实力深度对比", "link": "#", "text": "从 GDP、制造业到科技投入，四国经济格局的一次全景扫描。", "meta": "2026-08 · 深度长文" },
+      { "cover": "cover-2", "image": "", "emoji": "⚡", "category": "AI 算力", "title": "AI 算力军备竞赛：谁在领跑？", "link": "#", "text": "算力即国力，拆解全球算力版图与中国的追赶路径。", "meta": "2026-07 · 深度长文" },
+      { "cover": "cover-3", "image": "", "emoji": "🏭", "category": "华为产业链", "title": "华为产业链全景拆解", "link": "#", "text": "从芯片到鸿蒙，一家公司如何带动一整条产业链的国产化。", "meta": "2026-06 · 深度长文" },
+      { "cover": "cover-4", "image": "", "emoji": "🔬", "category": "国产芯片", "title": "国产芯片突围之路", "link": "#", "text": "设计、制造、设备、材料，四道关卡逐个拆解。", "meta": "2026-05 · 深度长文" },
+      { "cover": "cover-5", "image": "", "emoji": "🏗️", "category": "数据中心", "title": "全球数据中心格局分析", "link": "#", "text": "东数西算背后，数据中心正在成为新的关键基础设施。", "meta": "2026-04 · 深度长文" },
+      { "cover": "cover-6", "image": "", "emoji": "🔋", "category": "能源科技", "title": "大模型时代的能源挑战", "link": "#", "text": "AI 越强大越耗电，算力与电力的赛跑刚刚开始。", "meta": "2026-03 · 深度长文" }
+    ]
+  },
+  "courses": {
+    "tag": "COURSES",
+    "title": "课程",
+    "desc": "把多年行业观察提炼成方法论，系统化地讲给你听。",
+    "items": [
+      { "icon": "📖", "title": "科技产业分析入门", "text": "零基础学会用框架看产业：产业链拆解、景气度判断、信息源管理。", "status": "即将上线", "statusClass": "soon", "link": "#" },
+      { "icon": "🧠", "title": "看懂 AI 芯片：从架构到生态", "text": "GPU / NPU / 存算一体，算力芯片的技术脉络与商业格局一网打尽。", "status": "录制中", "statusClass": "recording", "link": "#" },
+      { "icon": "✍️", "title": "财经写作实战课", "text": "从选题、取证到成稿，手把手带你写出有传播力的深度内容。", "status": "规划中", "statusClass": "planning", "link": "#" }
+    ]
+  },
+  "videos": {
+    "tag": "TRAVEL FILMS",
+    "title": "旅拍视频",
+    "desc": "把沿途的风景和故事拍成短片，点击卡片即可播放。",
+    "moreText": "查看全部视频 →",
+    "moreHref": "#",
+    "items": [
+      { "key": "video-1", "cover": "cover-v1", "image": "", "title": "西藏自驾之旅", "meta": "318 川藏线 · 4K" },
+      { "key": "video-2", "cover": "cover-v2", "image": "", "title": "川西秋色", "meta": "稻城亚丁 · 航拍" },
+      { "key": "video-3", "cover": "cover-v3", "image": "", "title": "海边日出延时", "meta": "福建平潭 · 延时摄影" },
+      { "key": "video-4", "cover": "cover-v4", "image": "", "title": "城市夜景漫步", "meta": "重庆洪崖洞 · 人文" }
+    ],
+    "sources": {
+      "video-1": { "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "type": "video" },
+      "video-2": { "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", "type": "video" },
+      "video-3": { "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", "type": "video" },
+      "video-4": { "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", "type": "video" }
+    }
+  },
+  "unboxing": {
+    "tag": "UNBOXING",
+    "title": "数码产品开箱",
+    "desc": "新到手的数码好物第一时间拆箱上手，分享最真实的体验与踩坑心得。",
+    "moreText": "查看全部开箱 →",
+    "moreHref": "#",
+    "items": [
+      { "cover": "cover-1", "image": "", "emoji": "📱", "category": "旗舰手机", "title": "华为 Mate 系列旗舰开箱", "link": "#", "text": "影像、通信、卫星功能逐项实测，聊聊国产旗舰的真实体验。", "meta": "2026-08 · 开箱视频" },
+      { "cover": "cover-2", "image": "", "emoji": "💻", "category": "笔记本电脑", "title": "国产轻薄本生产力实测", "link": "#", "text": "屏幕、续航、键盘手感全维度体验，看看办公写稿够不够用。", "meta": "2026-07 · 开箱视频" },
+      { "cover": "cover-3", "image": "", "emoji": "🎧", "category": "音频设备", "title": "真无线降噪耳机横评", "link": "#", "text": "三款热门耳机音质与降噪对比，帮你选出最值的那款。", "meta": "2026-06 · 开箱视频" },
+      { "cover": "cover-4", "image": "", "emoji": "⌚", "category": "可穿戴", "title": "智能手表健康监测实测", "link": "#", "text": "心率、睡眠、运动识别准不准？戴着测一周告诉你答案。", "meta": "2026-05 · 开箱视频" },
+      { "cover": "cover-5", "image": "", "emoji": "🖥️", "category": "桌面设备", "title": "迷你主机性能大挑战", "link": "#", "text": "巴掌大的机身能跑什么？剪辑、AI 出图实测见分晓。", "meta": "2026-04 · 开箱视频" },
+      { "cover": "cover-6", "image": "", "emoji": "📷", "category": "影像设备", "title": "运动相机旅拍实战", "link": "#", "text": "带着它进山入海，看看旅拍画面稳不稳、色彩好不好看。", "meta": "2026-03 · 开箱视频" }
+    ]
+  },
+  "about": {
+    "tag": "ABOUT ME",
+    "title": "关于我",
+    "avatar": "艾",
+    "avatarImage": "",
+    "text": "我是艾斯利，一个长期关注科技与产业变革的内容创作者。我相信再硬核的话题，也能用大白话讲清楚。除了写文章，我也喜欢在路上——用镜头记录山川湖海，把旅途的见闻分享给屏幕前的你。",
+    "tags": ["AI 算力", "华为产业链", "国产芯片", "宏观经济", "旅行摄影"],
+    "contact": { "email": "hello@example.com", "emailLabel": "联系我", "socialLabel": "公众号", "socialHref": "#" }
+  }
+}
