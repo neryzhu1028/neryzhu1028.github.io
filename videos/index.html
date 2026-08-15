@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>旅拍视频 · 艾斯利</title>
+  <meta name="description" content="艾斯利的旅拍视频合集：川藏线自驾、稻城亚丁、平潭日出、城市夜景，把沿途的风景和故事拍成短片。">
+  <meta name="author" content="艾斯利">
+  <meta property="og:title" content="旅拍视频 · 艾斯利">
+  <meta property="og:description" content="川藏线自驾、稻城亚丁、平潭日出的旅拍短片。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234F46E5'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>艾</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="videos">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <!-- ===== 顶部导航 ===== -->
+  <header class="site-header" id="site-header">
+    <nav class="nav container" aria-label="主导航">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark" id="brand-mark" aria-hidden="true">艾</span>
+        <span class="brand-name" id="brand-name">艾斯利</span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="打开菜单">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a class="nav-link" href="../index.html">首页</a></li>
+        <li><a class="nav-link" href="../index.html#projects">项目</a></li>
+        <li><a class="nav-link" href="../index.html#courses">课程</a></li>
+        <li><a class="nav-link active" href="../index.html#videos">旅拍</a></li>
+        <li><a class="nav-link" href="../index.html#unboxing">开箱</a></li>
+        <li><a class="nav-link" href="../index.html#about">关于我</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ===== 页面横幅 ===== -->
+    <section class="page-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container page-hero-inner">
+        <nav class="breadcrumb reveal" aria-label="面包屑导航">
+          <a href="../index.html">首页</a><span class="sep" aria-hidden="true">/</span><em>旅拍</em>
+        </nav>
+        <p class="hero-eyebrow reveal" id="page-tag">TRAVEL FILMS</p>
+        <h1 class="page-title reveal" id="page-title">旅拍视频</h1>
+        <p class="page-desc reveal" id="page-desc">把沿途的风景和故事拍成短片，点击卡片即可播放。</p>
+        <p class="page-count reveal" id="page-count"></p>
+      </div>
+    </section>
+
+    <!-- ===== 全部视频 ===== -->
+    <section class="section page-section" id="videos-all">
+      <div class="container">
+        <div class="video-grid video-grid--lg" id="page-grid"><!-- 由 data/content.json 渲染 --></div>
+      </div>
+    </section>
+
+    <!-- ===== 返回首页 ===== -->
+    <section class="section section-alt page-cta">
+      <div class="container">
+        <a class="btn btn-ghost" href="../index.html#videos">← 返回首页</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== 页脚 ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p id="footer-text">© 2026 艾斯利 · 用大白话讲硬核科技</p>
+      <ul class="footer-links" id="footer-links" aria-label="社交链接"></ul>
+    </div>
+  </footer>
+
+  <!-- ===== 视频播放弹窗 ===== -->
+  <div class="modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title" hidden>
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-panel" role="document">
+      <h2 class="visually-hidden" id="video-modal-title">视频播放</h2>
+      <button class="modal-close" type="button" data-modal-close aria-label="关闭视频">
+        <span aria-hidden="true">✕</span>
+      </button>
+      <div class="modal-video" id="modal-video">
+        <p class="modal-placeholder">🎬 视频加载中…</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/pages.js"></script>
+</body>
+</html>

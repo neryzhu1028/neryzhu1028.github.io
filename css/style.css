@@ -965,3 +965,126 @@ button {
     width: 100%;
   }
 }
+
+/* ============================================================
+   子页面（项目 / 课程 / 旅拍 / 开箱）
+   ============================================================ */
+
+/* 当前页导航高亮 */
+.nav-link.active {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+/* 子页头部横幅（沿用首页 hero 的渐变背景） */
+.page-hero {
+  position: relative;
+  padding: calc(var(--header-h) + 64px) 0 60px;
+  overflow: hidden;
+}
+
+.page-hero-inner {
+  position: relative;
+  text-align: center;
+  max-width: 760px;
+}
+
+.breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--color-text-soft);
+  margin-bottom: 22px;
+}
+
+.breadcrumb a {
+  transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumb .sep {
+  color: #d1d5db;
+}
+
+.breadcrumb em {
+  font-style: normal;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.page-title {
+  font-size: clamp(32px, 5.5vw, 50px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.page-desc {
+  margin: 18px auto 0;
+  max-width: 580px;
+  font-size: 16.5px;
+  color: var(--color-text-soft);
+}
+
+.page-count {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  padding: 6px 16px;
+  border-radius: 999px;
+}
+
+.page-section {
+  padding-top: 64px;
+}
+
+/* 子页视频网格：放大尺寸，突出播放 */
+.video-grid--lg {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.video-grid--lg .video-cover {
+  height: 224px;
+}
+
+/* 课程状态分色 */
+.course-tag-soon {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.course-tag-recording {
+  color: #059669;
+  background: #ecfdf5;
+}
+
+.course-tag-planning {
+  color: #6b7280;
+  background: #f3f4f6;
+}
+
+/* 子页底部 CTA */
+.page-cta {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding: calc(var(--header-h) + 48px) 0 48px;
+  }
+  .video-grid--lg {
+    grid-template-columns: 1fr;
+  }
+  .video-grid--lg .video-cover {
+    height: 200px;
+  }
+}

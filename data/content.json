@@ -33,7 +33,7 @@
     "title": "精选项目",
     "desc": "长期追踪科技与产业变革，产出深度分析文章与研究报告。",
     "moreText": "查看全部文章 →",
-    "moreHref": "#",
+    "moreHref": "projects/index.html",
     "items": [
       { "cover": "cover-1", "image": "", "emoji": "🌏", "category": "宏观对比", "title": "中美日经济实力深度对比", "link": "#", "text": "从 GDP、制造业到科技投入，四国经济格局的一次全景扫描。", "meta": "2026-08 · 深度长文" },
       { "cover": "cover-2", "image": "", "emoji": "⚡", "category": "AI 算力", "title": "AI 算力军备竞赛：谁在领跑？", "link": "#", "text": "算力即国力，拆解全球算力版图与中国的追赶路径。", "meta": "2026-07 · 深度长文" },
@@ -58,7 +58,7 @@
     "title": "旅拍视频",
     "desc": "把沿途的风景和故事拍成短片，点击卡片即可播放。",
     "moreText": "查看全部视频 →",
-    "moreHref": "#",
+    "moreHref": "videos/index.html",
     "items": [
       { "key": "video-1", "cover": "cover-v1", "image": "", "title": "西藏自驾之旅", "meta": "318 川藏线 · 4K" },
       { "key": "video-2", "cover": "cover-v2", "image": "", "title": "川西秋色", "meta": "稻城亚丁 · 航拍" },
@@ -77,7 +77,7 @@
     "title": "数码产品开箱",
     "desc": "新到手的数码好物第一时间拆箱上手，分享最真实的体验与踩坑心得。",
     "moreText": "查看全部开箱 →",
-    "moreHref": "#",
+    "moreHref": "unboxing/index.html",
     "items": [
       { "cover": "cover-1", "image": "", "emoji": "📱", "category": "旗舰手机", "title": "华为 Mate 系列旗舰开箱", "link": "#", "text": "影像、通信、卫星功能逐项实测，聊聊国产旗舰的真实体验。", "meta": "2026-08 · 开箱视频" },
       { "cover": "cover-2", "image": "", "emoji": "💻", "category": "笔记本电脑", "title": "国产轻薄本生产力实测", "link": "#", "text": "屏幕、续航、键盘手感全维度体验，看看办公写稿够不够用。", "meta": "2026-07 · 开箱视频" },
