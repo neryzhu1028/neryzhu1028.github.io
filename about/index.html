@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我 · 艾斯利</title>
+  <meta name="description" content="认识艾斯利：科技产业深度观察内容创作者。AI 算力、华为产业链、国产芯片的深度分析，以及数码开箱与旅拍故事。">
+  <meta name="author" content="艾斯利">
+  <meta property="og:title" content="关于我 · 艾斯利">
+  <meta property="og:description" content="用大白话讲硬核科技，用镜头记录山川湖海。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234F46E5'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>艾</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="about">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <!-- ===== 顶部导航 ===== -->
+  <header class="site-header" id="site-header">
+    <nav class="nav container" aria-label="主导航">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark" id="brand-mark" aria-hidden="true">艾</span>
+        <span class="brand-name" id="brand-name">艾斯利</span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="打开菜单">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a class="nav-link" href="../index.html">首页</a></li>
+        <li><a class="nav-link" href="../projects/index.html">项目</a></li>
+        <li><a class="nav-link" href="../courses/index.html">课程</a></li>
+        <li><a class="nav-link" href="../videos/index.html">旅拍</a></li>
+        <li><a class="nav-link" href="../unboxing/index.html">开箱</a></li>
+        <li><a class="nav-link active" href="index.html">关于我</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ===== 页面横幅 ===== -->
+    <section class="page-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container page-hero-inner">
+        <nav class="breadcrumb reveal" aria-label="面包屑导航">
+          <a href="../index.html">首页</a><span class="sep" aria-hidden="true">/</span><em>关于我</em>
+        </nav>
+        <p class="hero-eyebrow reveal" id="page-tag">ABOUT ME</p>
+        <h1 class="page-title reveal" id="page-title">关于我</h1>
+        <p class="page-desc reveal" id="page-desc">用大白话讲硬核科技，用镜头记录山川湖海。这里是艾斯利的故事。</p>
+      </div>
+    </section>
+
+    <!-- ===== 自我介绍：头像 + 故事 ===== -->
+    <section class="section page-section">
+      <div class="container about-layout">
+        <div class="about-photo reveal" aria-hidden="true">
+          <span class="about-avatar about-avatar-lg" id="about-avatar">艾</span>
+        </div>
+        <div class="about-story-block reveal">
+          <h2 class="about-story-title">你好，很高兴认识你 👋</h2>
+          <div class="about-story" id="about-story"><!-- 由 content.json about.story 渲染 --></div>
+          <h3 class="about-sub-label">关注领域</h3>
+          <ul class="about-tags" id="about-focus-tags" aria-label="关注领域"></ul>
+          <h3 class="about-sub-label">工作之外</h3>
+          <ul class="about-tags about-hobbies" id="about-hobbies" aria-label="兴趣爱好"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 内容数据 ===== -->
+    <section class="section section-alt">
+      <div class="container">
+        <ul class="about-stats-strip reveal" id="about-stats" aria-label="内容数据统计"></ul>
+      </div>
+    </section>
+
+    <!-- ===== 成长时间线 ===== -->
+    <section class="section">
+      <div class="container about-narrow">
+        <header class="section-head reveal">
+          <p class="section-tag">JOURNEY</p>
+          <h2 class="section-title">一路走来的脚印</h2>
+          <p class="section-desc">从第一篇长文到独立站上线，记录每个重要的节点。</p>
+        </header>
+        <ol class="timeline" id="about-timeline"><!-- 由 content.json about.timeline 渲染 --></ol>
+      </div>
+    </section>
+
+    <!-- ===== 我的原则 ===== -->
+    <section class="section section-alt">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-tag">VALUES</p>
+          <h2 class="section-title">我坚持的事</h2>
+          <p class="section-desc">三个原则，贯穿我的每一篇内容。</p>
+        </header>
+        <div class="value-grid" id="about-values"><!-- 由 content.json about.values 渲染 --></div>
+      </div>
+    </section>
+
+    <!-- ===== 联系 CTA ===== -->
+    <section class="section">
+      <div class="container about-cta-box reveal">
+        <h2 class="section-title" id="about-cta-title">和我聊聊</h2>
+        <p class="about-cta-text" id="about-cta-text">无论是选题建议、数据纠错，还是单纯想聊聊科技与旅行，都欢迎来信。</p>
+        <div class="about-contact" id="about-cta-actions"></div>
+        <p class="about-back-link"><a class="btn btn-ghost" href="../index.html">← 回到首页逛逛</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== 页脚 ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p id="footer-text">© 2026 艾斯利 · 用大白话讲硬核科技</p>
+      <ul class="footer-links" id="footer-links" aria-label="社交链接"></ul>
+    </div>
+  </footer>
+
+  <script src="../js/pages.js"></script>
+</body>
+</html>

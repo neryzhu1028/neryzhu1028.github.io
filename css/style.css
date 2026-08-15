@@ -1088,3 +1088,293 @@ button {
     height: 200px;
   }
 }
+
+/* ============================================================
+   关于我页
+   ============================================================ */
+
+/* 头像 + 故事 双栏布局 */
+.about-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 56px;
+  align-items: start;
+  max-width: 980px;
+}
+
+.about-layout .about-photo {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+}
+
+.about-avatar-lg {
+  width: 300px;
+  height: 300px;
+  font-size: 120px;
+  border-radius: 36px;
+}
+
+.about-story-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+.about-story p {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--color-text-soft);
+  margin-bottom: 16px;
+}
+
+.about-story p:last-child {
+  margin-bottom: 0;
+}
+
+.about-sub-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+  margin: 28px 0 12px;
+}
+
+.about-hobbies li {
+  background: var(--color-bg-alt);
+}
+
+/* 数据统计条（横排四项） */
+.about-stats-strip {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-stats-strip li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+  border-right: 1px solid var(--color-border);
+}
+
+.about-stats-strip li:last-child {
+  border-right: none;
+}
+
+.about-stats-strip strong {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(120deg, var(--color-primary), #7c3aed 60%, #db2777);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.about-stats-strip span {
+  font-size: 13.5px;
+  color: var(--color-text-soft);
+  margin-top: 4px;
+}
+
+.about-narrow {
+  max-width: 760px;
+}
+
+/* 时间线 */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-left: 4px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 84px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--color-primary-soft), #e9d5ff);
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  position: relative;
+}
+
+.timeline-year {
+  flex-shrink: 0;
+  width: 72px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-primary);
+  padding-top: 16px;
+  text-align: right;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 79px;
+  top: 22px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-soft);
+}
+
+.timeline-card {
+  flex: 1;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-left: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.timeline-title {
+  font-size: 16.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.timeline-text {
+  font-size: 14.5px;
+  color: var(--color-text-soft);
+  line-height: 1.7;
+}
+
+/* 价值观卡片 */
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.value-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 30px 26px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.value-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  background: var(--color-primary-soft);
+  border-radius: 14px;
+  margin-bottom: 18px;
+}
+
+.value-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.value-text {
+  font-size: 14.5px;
+  color: var(--color-text-soft);
+  line-height: 1.75;
+}
+
+/* 联系 CTA */
+.about-cta-box {
+  text-align: center;
+  max-width: 620px;
+}
+
+.about-cta-text {
+  font-size: 16px;
+  color: var(--color-text-soft);
+  margin: 14px 0 28px;
+}
+
+.about-cta-box .about-contact {
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.about-back-link {
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    justify-items: center;
+    text-align: left;
+  }
+  .about-layout .about-photo {
+    position: static;
+  }
+  .about-avatar-lg {
+    width: 220px;
+    height: 220px;
+    font-size: 88px;
+  }
+  .value-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-stats-strip {
+    flex-wrap: wrap;
+    gap: 16px 0;
+  }
+  .about-stats-strip li {
+    flex-basis: 50%;
+    border-right: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .timeline::before {
+    left: 11px;
+  }
+  .timeline-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .timeline-item::before {
+    left: 6px;
+    top: 8px;
+  }
+  .timeline-year {
+    width: auto;
+    text-align: left;
+    padding: 0 0 0 28px;
+  }
+  .timeline-card {
+    margin-left: 28px;
+  }
+}

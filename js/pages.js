@@ -1,6 +1,6 @@
 /* ============================================================
    艾斯利个人网页 · 子页面通用渲染脚本
-   适用页面：projects/ courses/ videos/ unboxing/
+   适用页面：projects/ courses/ videos/ unboxing/ about/
    内容来源：../data/content.json（由后台管理系统维护）
    ============================================================ */
 
@@ -37,6 +37,13 @@
       crumb: "开箱",
       homeNav: "unboxing",
       render: renderUnboxingPage
+    },
+    about: {
+      module: "about",
+      crumb: "关于我",
+      homeNav: "about",
+      noCount: true,
+      render: renderAboutPage
     }
   };
 
@@ -167,6 +174,104 @@
   /* ---------- 开箱页：全量卡片 ---------- */
   function renderUnboxingPage(mod) {
     renderProjectPage(mod); // 卡片结构一致，直接复用
+  }
+
+  /* ---------- 关于我页：故事 + 时间线 + 价值观 + CTA ---------- */
+  function renderAboutPage(mod) {
+    // 头像
+    var avatar = document.getElementById("about-avatar");
+    if (avatar) {
+      if (mod.avatarImage) {
+        avatar.innerHTML = '<img src="' + esc(mod.avatarImage) + '" alt="艾斯利的头像" loading="lazy">';
+        avatar.classList.add("avatar-img");
+      } else {
+        avatar.textContent = mod.avatar || "艾";
+        avatar.classList.remove("avatar-img");
+      }
+    }
+
+    // 故事段落
+    var story = document.getElementById("about-story");
+    if (story) {
+      story.innerHTML = (mod.story || [mod.text || ""])
+        .filter(function (s) { return s; })
+        .map(function (p) { return "<p>" + esc(p) + "</p>"; })
+        .join("");
+    }
+
+    // 关注领域标签
+    var focusTags = document.getElementById("about-focus-tags");
+    if (focusTags) {
+      focusTags.innerHTML = (mod.tags || [])
+        .map(function (t) { return "<li>" + esc(t) + "</li>"; })
+        .join("");
+    }
+
+    // 兴趣爱好标签
+    var hobbies = document.getElementById("about-hobbies");
+    if (hobbies) {
+      hobbies.innerHTML = (mod.hobbies || [])
+        .map(function (t) { return "<li>" + esc(t) + "</li>"; })
+        .join("");
+    }
+
+    // 数据统计条
+    var stats = document.getElementById("about-stats");
+    if (stats) {
+      stats.innerHTML = (mod.stats || (CONTENT.hero && CONTENT.hero.stats) || [])
+        .map(function (s) {
+          return "<li><strong>" + esc(s.num) + "</strong><span>" + esc(s.label) + "</span></li>";
+        })
+        .join("");
+    }
+
+    // 时间线
+    var timeline = document.getElementById("about-timeline");
+    if (timeline) {
+      timeline.innerHTML = (mod.timeline || [])
+        .map(function (item) {
+          return (
+            '<li class="timeline-item reveal">' +
+              '<span class="timeline-year">' + esc(item.year) + "</span>" +
+              '<div class="timeline-card">' +
+                '<h3 class="timeline-title">' + esc(item.title) + "</h3>" +
+                '<p class="timeline-text">' + esc(item.text) + "</p>" +
+              "</div>" +
+            "</li>"
+          );
+        })
+        .join("");
+    }
+
+    // 价值观卡片
+    var values = document.getElementById("about-values");
+    if (values) {
+      values.innerHTML = (mod.values || [])
+        .map(function (item) {
+          return (
+            '<article class="value-card reveal">' +
+              '<div class="value-icon" aria-hidden="true">' + esc(item.icon || "✨") + "</div>" +
+              '<h3 class="value-title">' + esc(item.title) + "</h3>" +
+              '<p class="value-text">' + esc(item.text) + "</p>" +
+            "</article>"
+          );
+        })
+        .join("");
+    }
+
+    // 联系 CTA
+    var ctaTitle = document.getElementById("about-cta-title");
+    if (ctaTitle && mod.ctaTitle) ctaTitle.textContent = mod.ctaTitle;
+    var ctaText = document.getElementById("about-cta-text");
+    if (ctaText && mod.ctaText) ctaText.textContent = mod.ctaText;
+
+    var actions = document.getElementById("about-cta-actions");
+    if (actions) {
+      var c = mod.contact || {};
+      actions.innerHTML =
+        '<a class="btn btn-primary" href="mailto:' + esc(c.email || "hello@example.com") + '">' + esc(c.emailLabel || "联系我") + "</a>" +
+        '<a class="btn btn-ghost" href="' + esc(c.socialHref || "#") + '">' + esc(c.socialLabel || "公众号") + "</a>";
+    }
   }
 
   /* ---------- 视频弹窗 ---------- */
