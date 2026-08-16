@@ -9,7 +9,7 @@
   <meta property="og:title" content="关于我 · 艾斯利">
   <meta property="og:description" content="用大白话讲硬核科技，用镜头记录山川湖海。">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234F46E5'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>艾</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230B0F1A'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='serif' font-weight='800'>艾</text><polygon points='80,0 100,0 100,20' fill='%23FF7A45'/></svg>">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body data-page="about">
@@ -20,7 +20,10 @@
     <nav class="nav container" aria-label="主导航">
       <a class="brand" href="../index.html">
         <span class="brand-mark" id="brand-mark" aria-hidden="true">艾</span>
-        <span class="brand-name" id="brand-name">艾斯利</span>
+        <span class="brand-text">
+          <span class="brand-name" id="brand-name">艾斯利</span>
+          <span class="brand-tagline" id="brand-tagline">TECH · TRAVEL · TRUTH</span>
+        </span>
       </a>
       <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="打开菜单">
         <span class="nav-toggle-bar"></span>
@@ -41,12 +44,16 @@
   <main id="main">
     <!-- ===== 页面横幅 ===== -->
     <section class="page-hero">
-      <div class="hero-bg" aria-hidden="true"></div>
       <div class="container page-hero-inner">
         <nav class="breadcrumb reveal" aria-label="面包屑导航">
           <a href="../index.html">首页</a><span class="sep" aria-hidden="true">/</span><em>关于我</em>
         </nav>
-        <p class="hero-eyebrow reveal" id="page-tag">ABOUT ME</p>
+        <p class="hero-id reveal" style="background:var(--color-cream);color:var(--color-ink);border:1px solid var(--color-border);">
+          <span class="dot" aria-hidden="true" style="background:var(--color-accent);box-shadow:0 0 0 3px rgba(255,122,69,.22);"></span>
+          <span class="role" style="color:var(--color-primary);">ABOUT ME</span>
+          <span class="sep" style="opacity:.4">/</span>
+          <span style="opacity:.85">2026 · 自我介绍</span>
+        </p>
         <h1 class="page-title reveal" id="page-title">关于我</h1>
         <p class="page-desc reveal" id="page-desc">用大白话讲硬核科技，用镜头记录山川湖海。这里是艾斯利的故事。</p>
       </div>
@@ -102,11 +109,19 @@
 
     <!-- ===== 联系 CTA ===== -->
     <section class="section">
-      <div class="container about-cta-box reveal">
-        <h2 class="section-title" id="about-cta-title">和我聊聊</h2>
-        <p class="about-cta-text" id="about-cta-text">无论是选题建议、数据纠错，还是单纯想聊聊科技与旅行，都欢迎来信。</p>
-        <div class="about-contact" id="about-cta-actions"></div>
-        <p class="about-back-link"><a class="btn btn-ghost" href="../index.html">← 回到首页逛逛</a></p>
+      <div class="container">
+        <div class="about-cta-box reveal">
+          <p class="hero-id" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.15);">
+            <span class="dot" aria-hidden="true" style="background:var(--color-accent);box-shadow:0 0 0 3px rgba(255,122,69,.3);"></span>
+            <span class="role" style="color:var(--color-accent);">SAY HELLO</span>
+            <span class="sep" style="opacity:.4">/</span>
+            <span style="opacity:.85">欢迎随时来信</span>
+          </p>
+          <h2 class="section-title" id="about-cta-title" style="margin-top:24px;">和我聊聊</h2>
+          <p class="about-cta-text" id="about-cta-text">无论是选题建议、数据纠错，还是单纯想聊聊科技与旅行，都欢迎来信。</p>
+          <div class="about-contact" id="about-cta-actions"></div>
+          <p class="about-back-link"><a class="btn btn-ghost" href="../index.html">← 回到首页逛逛</a></p>
+        </div>
       </div>
     </section>
   </main>
@@ -114,8 +129,19 @@
   <!-- ===== 页脚 ===== -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p id="footer-text">© 2026 艾斯利 · 用大白话讲硬核科技</p>
-      <ul class="footer-links" id="footer-links" aria-label="社交链接"></ul>
+      <div class="footer-brand">
+        <div class="footer-hand">艾斯利</div>
+        <p class="footer-tag">TECH · TRAVEL · TRUTH</p>
+        <p class="footer-text" id="footer-text">© 2026 艾斯利 · 用大白话讲硬核科技，用镜头记录山川湖海</p>
+      </div>
+      <div class="footer-social">
+        <span class="footer-social-label">FOLLOW</span>
+        <ul class="footer-links" id="footer-links" aria-label="社交链接"></ul>
+      </div>
+      <div class="footer-bottom">
+        <span>Built with care · 坚持事实核查优先</span>
+        <span>· · ·</span>
+      </div>
     </div>
   </footer>
 

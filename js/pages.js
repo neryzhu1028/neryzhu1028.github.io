@@ -79,9 +79,13 @@
 
     var brandMark = document.getElementById("brand-mark");
     var brandName = document.getElementById("brand-name");
+    var brandTagline = document.getElementById("brand-tagline");
     if (brandMark) brandMark.textContent = site.brandMark || "艾";
     if (brandName) brandName.textContent = site.brandName || "";
+    if (brandTagline) brandTagline.textContent = site.brandTagline || "TECH · TRAVEL · TRUTH";
 
+    var footerTag = document.getElementById("footer-tag");
+    if (footerTag) footerTag.textContent = site.footerTag || "TECH · TRAVEL · TRUTH";
     var footerText = document.getElementById("footer-text");
     if (footerText) footerText.textContent = site.footerText || "";
 
@@ -157,8 +161,9 @@
     if (!grid) return;
     grid.innerHTML = (mod.items || [])
       .map(function (item) {
+        var tag = item.tag ? ' data-tag="' + esc(item.tag) + '"' : "";
         return (
-          '<button class="video-card reveal" type="button" data-video="' + esc(item.key) + '" aria-label="播放视频：' + esc(item.title) + '">' +
+          '<button class="video-card reveal" type="button" data-video="' + esc(item.key) + '"' + tag + ' aria-label="播放视频：' + esc(item.title) + '">' +
             coverHtml(item, true) +
             '<div class="video-info">' +
               '<h3 class="video-title">' + esc(item.title) + "</h3>" +
@@ -462,6 +467,18 @@
           "<p>⚠️ 子页面不支持 file:// 协议直接打开，请通过本地服务器或线上地址访问。</p></div>";
       }
       return;
+    }
+    // 管理后台预览模式：URL 带 ?draft=1 时读取本地草稿，不影响普通访客
+    if (/[?&]draft=1/.test(location.search)) {
+      try {
+        var draftRaw = JSON.parse(localStorage.getItem("as_cms_draft") || "null");
+        if (draftRaw && draftRaw.data && draftRaw.data.site) {
+          CONTENT = draftRaw.data;
+          VIDEOS = (CONTENT.videos && CONTENT.videos.sources) || {};
+          renderAll();
+          return;
+        }
+      } catch (e) { /* 草稿损坏则回落到正常 fetch */ }
     }
     fetch("../data/content.json", { cache: "no-store" })
       .then(function (res) {

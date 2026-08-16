@@ -49,6 +49,12 @@
 
     document.getElementById("brand-mark").textContent = site.brandMark || "艾";
     document.getElementById("brand-name").textContent = site.brandName || "";
+    var tagline = document.getElementById("brand-tagline");
+    if (tagline) tagline.textContent = site.brandTagline || "TECH · TRAVEL · TRUTH";
+
+    // 页脚
+    var footerTag = document.getElementById("footer-tag");
+    if (footerTag) footerTag.textContent = site.footerTag || "TECH · TRAVEL · TRUTH";
     document.getElementById("footer-text").textContent = site.footerText || "";
 
     var links = document.getElementById("footer-links");
@@ -61,22 +67,31 @@
 
   /* ---------- 渲染：Hero ---------- */
   function renderHero(hero) {
-    document.getElementById("hero-eyebrow").textContent = hero.eyebrow || "";
+    // eyebrow 为备用字段：当前页面无对应元素，null 守卫避免中断后续渲染
+    var eyebrow = document.getElementById("hero-eyebrow");
+    if (eyebrow) eyebrow.textContent = hero.eyebrow || "";
     var title = document.getElementById("hero-title");
-    title.innerHTML = esc(hero.titlePrefix || "") + '<span class="gradient-text">' + esc(hero.titleHighlight || "") + "</span>";
-    document.getElementById("hero-subtitle").textContent = hero.subtitle || "";
+    if (title) {
+      title.innerHTML = esc(hero.titlePrefix || "") + '<span class="gradient-text">' + esc(hero.titleHighlight || "") + "</span>";
+    }
+    var subtitle = document.getElementById("hero-subtitle");
+    if (subtitle) subtitle.textContent = hero.subtitle || "";
 
     var actions = document.getElementById("hero-actions");
-    actions.innerHTML =
-      '<a class="btn btn-primary" href="' + esc(hero.primaryBtn.href || "#projects") + '">' + esc(hero.primaryBtn.text) + "</a>" +
-      '<a class="btn btn-ghost" href="' + esc(hero.ghostBtn.href || "#videos") + '">' + esc(hero.ghostBtn.text) + "</a>";
+    if (actions) {
+      actions.innerHTML =
+        '<a class="btn btn-primary" href="' + esc((hero.primaryBtn && hero.primaryBtn.href) || "#projects") + '">' + esc((hero.primaryBtn && hero.primaryBtn.text) || "") + "</a>" +
+        '<a class="btn btn-ghost" href="' + esc((hero.ghostBtn && hero.ghostBtn.href) || "#videos") + '">' + esc((hero.ghostBtn && hero.ghostBtn.text) || "") + "</a>";
+    }
 
     var stats = document.getElementById("hero-stats");
-    stats.innerHTML = (hero.stats || [])
-      .map(function (s) {
-        return "<li><strong>" + esc(s.num) + "</strong><span>" + esc(s.label) + "</span></li>";
-      })
-      .join("");
+    if (stats) {
+      stats.innerHTML = (hero.stats || [])
+        .map(function (s) {
+          return "<li><strong>" + esc(s.num) + "</strong><span>" + esc(s.label) + "</span></li>";
+        })
+        .join("");
+    }
   }
 
   /* ---------- 渲染：区块头部（tag / title / desc） ---------- */
@@ -148,8 +163,9 @@
     if (!grid) return;
     grid.innerHTML = (videos.items || [])
       .map(function (item) {
+        var tag = item.tag ? ' data-tag="' + esc(item.tag) + '"' : "";
         return (
-          '<button class="video-card reveal" type="button" data-video="' + esc(item.key) + '" aria-label="播放视频：' + esc(item.title) + '">' +
+          '<button class="video-card reveal" type="button" data-video="' + esc(item.key) + '"' + tag + ' aria-label="播放视频：' + esc(item.title) + '">' +
             coverHtml(item, true) +
             '<div class="video-info">' +
               '<h3 class="video-title">' + esc(item.title) + "</h3>" +
@@ -189,17 +205,23 @@
 
   /* ---------- 主渲染入口 ---------- */
   function renderAll() {
-    renderSite(CONTENT.site);
-    renderHero(CONTENT.hero);
-    renderSectionHead("projects", CONTENT.projects);
-    renderCards("project-grid", CONTENT.projects.items);
-    renderSectionHead("courses", CONTENT.courses);
-    renderCourses("course-list", CONTENT.courses.items);
-    renderSectionHead("videos", CONTENT.videos);
-    renderVideos(CONTENT.videos);
-    renderSectionHead("unboxing", CONTENT.unboxing);
-    renderCards("unboxing-grid", CONTENT.unboxing.items);
-    renderAbout(CONTENT.about);
+    // 每个渲染步骤独立 try/catch：单点数据异常不再拖垮整页
+    var steps = [
+      ["site", function () { renderSite(CONTENT.site); }],
+      ["hero", function () { renderHero(CONTENT.hero); }],
+      ["projects-head", function () { renderSectionHead("projects", CONTENT.projects); }],
+      ["projects-cards", function () { renderCards("project-grid", CONTENT.projects.items); }],
+      ["courses-head", function () { renderSectionHead("courses", CONTENT.courses); }],
+      ["courses-list", function () { renderCourses("course-list", CONTENT.courses.items); }],
+      ["videos-head", function () { renderSectionHead("videos", CONTENT.videos); }],
+      ["videos-grid", function () { renderVideos(CONTENT.videos); }],
+      ["unboxing-head", function () { renderSectionHead("unboxing", CONTENT.unboxing); }],
+      ["unboxing-cards", function () { renderCards("unboxing-grid", CONTENT.unboxing.items); }],
+      ["about", function () { renderAbout(CONTENT.about); }]
+    ];
+    steps.forEach(function (s) {
+      try { s[1](); } catch (err) { console.error("渲染失败 [" + s[0] + "]:", err); }
+    });
 
     // 渲染完成后，为新内容重新挂载滚动显现动画与导航高亮
     observeReveals(document.getElementById("main"));
@@ -214,6 +236,18 @@
     if (isFile) {
       showFileProtocolHelp();
       return;
+    }
+    // 管理后台预览模式：URL 带 ?draft=1 时读取本地草稿，不影响普通访客
+    if (/[?&]draft=1/.test(location.search)) {
+      try {
+        var draftRaw = JSON.parse(localStorage.getItem("as_cms_draft") || "null");
+        if (draftRaw && draftRaw.data && draftRaw.data.site) {
+          CONTENT = draftRaw.data;
+          VIDEOS = (CONTENT.videos && CONTENT.videos.sources) || {};
+          renderAll();
+          return;
+        }
+      } catch (e) { /* 草稿损坏则回落到正常 fetch */ }
     }
     fetch("data/content.json", { cache: "no-store" })
       .then(function (res) {

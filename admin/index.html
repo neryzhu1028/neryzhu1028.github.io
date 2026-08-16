@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>艾斯利网站 · 内容管理后台</title>
+<link rel="stylesheet" href="admin.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+</head>
+<body>
+
+<!-- ============ 登录页 ============ -->
+<div id="login-view" class="login-view hidden">
+  <div class="login-card">
+    <div class="login-logo">⚙️</div>
+    <h1>艾斯利网站 · 内容管理后台</h1>
+    <p class="login-sub">通过 GitHub 仓库在线编辑网站内容，保存后自动发布</p>
+
+    <div class="field">
+      <label>GitHub 访问令牌 <span class="req">*</span></label>
+      <input type="password" id="login-token" placeholder="粘贴 fine-grained access token…" autocomplete="off">
+      <p class="spec">令牌仅保存在你的浏览器本机，不会上传到任何地方。请勿在公共设备上勾选长期记住。</p>
+    </div>
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="login-session-only"> 仅本次会话记住（关闭浏览器后需重新登录）
+    </label>
+
+    <button class="btn primary block" id="login-btn">🔑 验证并登录</button>
+    <p class="login-status" id="login-status"></p>
+
+    <details class="login-guide">
+      <summary>如何创建访问令牌？</summary>
+      <ol>
+        <li>打开 <a href="https://github.com/settings/tokens?type=beta" target="_blank">GitHub → Fine-grained tokens</a></li>
+        <li>点 <b>Generate new token</b>，名称随意（如 <code>aceskills-cms</code>）</li>
+        <li><b>Repository access</b> 选 <code>Only select repositories</code>，选中 <code>neryzhu1028.github.io</code></li>
+        <li><b>Permissions → Repository permissions</b>：将 <code>Contents</code> 设为 <b>Read and write</b>（必需）</li>
+        <li>生成后复制令牌（以 <code>github_pat_</code> 开头），粘贴到上方输入框</li>
+        <li>建议有效期设为 90 天，到期后重新生成即可</li>
+      </ol>
+    </details>
+  </div>
+</div>
+
+<!-- ============ 编辑页 ============ -->
+<div id="app-view" class="hidden">
+
+  <div class="topbar">
+    <span class="logo">⚙️ 网站后台 <small>艾斯利个人网页内容管理</small></span>
+    <span class="conn-state" id="conn-state"><span class="dot green"></span><span id="conn-text">已连接</span></span>
+    <span id="dirty-badge" class="dirty-badge hidden">● 有未保存修改</span>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-reload" title="重新拉取线上最新内容">🔄 重新加载</button>
+    <button class="btn" id="btn-preview" title="打开实时预览抽屉">👁 预览</button>
+    <button class="btn ok" id="btn-save">💾 保存并发布</button>
+    <button class="btn" id="btn-logout" title="退出登录">退出</button>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="group-label">基础信息</div>
+      <button data-panel="site">🌐 站点信息</button>
+      <button data-panel="hero">🏠 Hero 首屏</button>
+      <div class="group-label">内容模块</div>
+      <button data-panel="projects">📁 精选项目</button>
+      <button data-panel="courses">📚 课程</button>
+      <button data-panel="videos">🎬 旅拍视频</button>
+      <button data-panel="unboxing">📦 产品开箱</button>
+      <button data-panel="about">👤 关于我</button>
+      <div class="group-label">帮助</div>
+      <button data-panel="guide">📖 素材规格 & 发布指南</button>
+    </aside>
+
+    <main class="main" id="main"></main>
+
+    <!-- 预览抽屉 -->
+    <aside class="preview-drawer hidden" id="preview-drawer">
+      <div class="preview-bar">
+        <select id="preview-page">
+          <option value="../index.html">首页</option>
+          <option value="../projects/index.html">精选项目页</option>
+          <option value="../courses/index.html">课程页</option>
+          <option value="../videos/index.html">旅拍视频页</option>
+          <option value="../unboxing/index.html">产品开箱页</option>
+          <option value="../about/index.html">关于我页</option>
+        </select>
+        <button class="btn sm" id="preview-vp-desktop" title="桌面视口">🖥</button>
+        <button class="btn sm" id="preview-vp-mobile" title="手机视口 390px">📱</button>
+        <button class="btn sm" id="preview-refresh" title="刷新预览">🔄</button>
+        <button class="btn sm" id="preview-clear-draft" title="清除草稿">🗑 草稿</button>
+        <span class="spacer"></span>
+        <button class="btn sm" id="preview-close">✕</button>
+      </div>
+      <div class="preview-frame-wrap" id="preview-frame-wrap">
+        <iframe id="preview-frame" src="about:blank" title="实时预览"></iframe>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<!-- 冲突处理弹窗 -->
+<div class="modal-mask hidden" id="conflict-modal">
+  <div class="modal">
+    <h3>⚠️ 保存冲突</h3>
+    <p>你加载内容后，线上文件已被其他人（或部署脚本）修改过。直接保存会覆盖对方改动。</p>
+    <div class="modal-actions">
+      <button class="btn danger" id="conflict-overwrite">仍然覆盖保存</button>
+      <button class="btn" id="conflict-reload">放弃我的修改，载入线上最新版</button>
+      <button class="btn" id="conflict-download">下载我的版本到本地</button>
+      <button class="btn" id="conflict-cancel">取消</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
