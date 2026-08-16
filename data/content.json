@@ -3,11 +3,14 @@
   "site": {
     "brandMark": "艾",
     "brandName": "艾斯利",
+    "brandTagline": "TECH · TRAVEL · TRUTH",
     "pageTitle": "艾斯利 · 科技产业深度观察",
     "description": "艾斯利的个人网站：科技与产业深度分析文章、课程与旅拍视频作品集。关注 AI 算力、华为产业链、国产芯片与宏观经济。",
     "author": "艾斯利",
-    "ogDescription": "项目 / 课程 / 旅拍视频，一个属于我的互联网主页。",
-    "footerText": "© 2026 艾斯利 · 用大白话讲硬核科技",
+    "ogDescription": "用大白话讲硬核科技，用镜头记录山川湖海。一个长期追踪 AI 算力、华为产业链、国产芯片的创作者。",
+    "footerText": "© 2026 艾斯利 · 用大白话讲硬核科技，用镜头记录山川湖海",
+    "footerTag": "TECH · TRAVEL · TRUTH",
+    "footerBottom": "Built with care · 坚持事实核查优先",
     "socialLinks": [
       { "label": "今日头条", "url": "#" },
       { "label": "哔哩哔哩", "url": "#" },
@@ -60,10 +63,10 @@
     "moreText": "查看全部视频 →",
     "moreHref": "videos/index.html",
     "items": [
-      { "key": "video-1", "cover": "cover-v1", "image": "", "title": "西藏自驾之旅", "meta": "318 川藏线 · 4K" },
-      { "key": "video-2", "cover": "cover-v2", "image": "", "title": "川西秋色", "meta": "稻城亚丁 · 航拍" },
-      { "key": "video-3", "cover": "cover-v3", "image": "", "title": "海边日出延时", "meta": "福建平潭 · 延时摄影" },
-      { "key": "video-4", "cover": "cover-v4", "image": "", "title": "城市夜景漫步", "meta": "重庆洪崖洞 · 人文" }
+      { "key": "video-1", "cover": "cover-v1", "image": "", "title": "318 川藏 · 自驾之旅", "meta": "21 天 · 4200 公里", "tag": "EP.01" },
+      { "key": "video-2", "cover": "cover-v2", "image": "", "title": "川西秋色 · 稻城亚丁", "meta": "航拍 · 4K", "tag": "EP.02" },
+      { "key": "video-3", "cover": "cover-v3", "image": "", "title": "海边日出 · 福建平潭", "meta": "延时摄影", "tag": "EP.03" },
+      { "key": "video-4", "cover": "cover-v4", "image": "", "title": "城市夜景 · 重庆洪崖洞", "meta": "人文漫步", "tag": "EP.04" }
     ],
     "sources": {
       "video-1": { "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "type": "video" },
