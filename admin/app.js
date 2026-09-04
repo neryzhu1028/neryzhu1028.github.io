@@ -990,7 +990,7 @@
     var cfg = panelSection("运行参数", "调整后立即影响后续请求，不会暴露 MiniMax 密钥。");
     cfg.insertAdjacentHTML("beforeend", '<div class="row"><div class="field"><label>模型</label><input id="ai-model" value="MiniMax-M3"></div><div class="field"><label>Temperature（0-1）</label><input id="ai-temperature" type="number" min="0" max="1" step="0.1" value="0.3"></div><div class="field"><label>最大输出 Token</label><input id="ai-max-tokens" type="number" min="1000" max="16000" step="500" value="8000"></div></div><label class="checkbox-row"><input id="ai-enabled" type="checkbox" checked> 启用云端 AI 服务</label><div class="form-actions"><button class="btn ok" id="ai-save">💾 保存参数</button></div>');
     main.appendChild(cfg);
-    var url = sessionStorage.getItem("as_ai_api_url") || "";
+    var url = sessionStorage.getItem("as_ai_api_url") || "https://aceskills-2026-d4gpqs1bbda809728-1451609693.ap-shanghai.app.tcloudbase.com/ai-gateway";
     var token = sessionStorage.getItem("as_ai_admin_token") || "";
     $("ai-api-url").value = url;
     $("ai-admin-token").value = token;
