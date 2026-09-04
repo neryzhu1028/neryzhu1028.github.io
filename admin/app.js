@@ -977,6 +977,41 @@
     main.appendChild(p2);
   }
 
+  function renderPanelAIService() {
+    var main = $("main");
+    main.innerHTML = "";
+    var p = panelSection("🤖 录音卡 AI 服务", "云端 MiniMax 网关的运行状态、用量统计和运行参数。密钥只保存在 CloudBase 云函数环境变量中。");
+    p.insertAdjacentHTML("beforeend", '<div class="row"><div class="field"><label>云函数 API 地址</label><input id="ai-api-url" type="url" placeholder="https://你的云函数地址"></div><div class="field"><label>管理员令牌</label><input id="ai-admin-token" type="password" placeholder="仅保存在当前浏览器会话"></div></div>' +
+      '<div class="form-actions"><button class="btn primary" id="ai-load">🔄 读取状态</button><span class="spec" id="ai-status"></span></div>');
+    main.appendChild(p);
+    var stats = panelSection("服务统计", "仅显示最近 500 次请求的聚合结果。");
+    stats.insertAdjacentHTML("beforeend", '<div class="row3"><div class="stat-card"><b id="ai-count">-</b><span>请求数</span></div><div class="stat-card"><b id="ai-success">-</b><span>成功数</span></div><div class="stat-card"><b id="ai-failed">-</b><span>失败数</span></div></div>');
+    main.appendChild(stats);
+    var cfg = panelSection("运行参数", "调整后立即影响后续请求，不会暴露 MiniMax 密钥。");
+    cfg.insertAdjacentHTML("beforeend", '<div class="row"><div class="field"><label>模型</label><input id="ai-model" value="MiniMax-M3"></div><div class="field"><label>Temperature（0-1）</label><input id="ai-temperature" type="number" min="0" max="1" step="0.1" value="0.3"></div><div class="field"><label>最大输出 Token</label><input id="ai-max-tokens" type="number" min="1000" max="16000" step="500" value="8000"></div></div><label class="checkbox-row"><input id="ai-enabled" type="checkbox" checked> 启用云端 AI 服务</label><div class="form-actions"><button class="btn ok" id="ai-save">💾 保存参数</button></div>');
+    main.appendChild(cfg);
+    var url = sessionStorage.getItem("as_ai_api_url") || "";
+    var token = sessionStorage.getItem("as_ai_admin_token") || "";
+    $("ai-api-url").value = url;
+    $("ai-admin-token").value = token;
+    function headers() { return { "Content-Type": "application/json", "X-Admin-Token": $("ai-admin-token").value.trim() }; }
+    async function call(path, options) {
+      var base = $("ai-api-url").value.trim().replace(/\/$/, "");
+      if (!base) throw new Error("请填写云函数 API 地址");
+      sessionStorage.setItem("as_ai_api_url", base); sessionStorage.setItem("as_ai_admin_token", $("ai-admin-token").value.trim());
+      var res = await fetch(base + path, Object.assign({ headers: headers() }, options || {}));
+      var body = await res.json(); if (!res.ok) throw new Error(body.error || ("HTTP " + res.status)); return body;
+    }
+    $("ai-load").addEventListener("click", async function () {
+      this.disabled = true; $("ai-status").textContent = "正在读取…";
+      try { var s = await call("/api/v1/admin/stats"); $("ai-count").textContent = s.count; $("ai-success").textContent = s.success; $("ai-failed").textContent = s.failed; var c = await call("/api/v1/admin/config"); $("ai-model").value = c.model; $("ai-temperature").value = c.temperature; $("ai-max-tokens").value = c.maxTokens; $("ai-enabled").checked = c.enabled; $("ai-status").textContent = "读取成功"; } catch (e) { $("ai-status").textContent = "读取失败：" + e.message; } finally { this.disabled = false; }
+    });
+    $("ai-save").addEventListener("click", async function () {
+      this.disabled = true; $("ai-status").textContent = "正在保存…";
+      try { await call("/api/v1/admin/config", { method: "POST", body: JSON.stringify({ model: $("ai-model").value.trim(), temperature: Number($("ai-temperature").value), maxTokens: Number($("ai-max-tokens").value), enabled: $("ai-enabled").checked }) }); $("ai-status").textContent = "参数已保存"; } catch (e) { $("ai-status").textContent = "保存失败：" + e.message; } finally { this.disabled = false; }
+    });
+  }
+
   /* ================= 面板切换 ================= */
   function switchPanel(name) {
     var map = {
@@ -987,6 +1022,7 @@
       videos: renderPanelVideos,
       unboxing: function () { renderPanelCards("unboxing", "📦 数码产品开箱", "开箱卡片：封面、分类、标题、简介与跳转链接。"); },
       about: renderPanelAbout,
+      "ai-service": renderPanelAIService,
       guide: renderPanelGuide
     };
     document.querySelectorAll(".sidebar button").forEach(function (b) {
