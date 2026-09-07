@@ -1,5 +1,5 @@
 /* ============================================================
-   艾斯利个人网页 · 子页面通用渲染脚本
+   艾思力个人网页 · 子页面通用渲染脚本
    适用页面：projects/ courses/ videos/ unboxing/ about/
    内容来源：../data/content.json（由后台管理系统维护）
    ============================================================ */
@@ -187,7 +187,7 @@
     var avatar = document.getElementById("about-avatar");
     if (avatar) {
       if (mod.avatarImage) {
-        avatar.innerHTML = '<img src="' + esc(mod.avatarImage) + '" alt="艾斯利的头像" loading="lazy">';
+        avatar.innerHTML = '<img src="' + esc(mod.avatarImage) + '" alt="艾思力的头像" loading="lazy">';
         avatar.classList.add("avatar-img");
       } else {
         avatar.textContent = mod.avatar || "艾";
