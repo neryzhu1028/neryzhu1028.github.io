@@ -22,7 +22,7 @@ async (page) => {
   });
 
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  for (const [width, height] of [[1920, 1080], [1440, 900], [1366, 768], [768, 1024], [390, 844]]) {
+  for (const [width, height] of [[1920, 1080], [1440, 900], [1366, 768], [862, 870], [768, 1024], [390, 844]]) {
     await page.setViewportSize({ width, height });
     await navigate("/");
     await page.waitForFunction(() => document.querySelector(".hero-landscape img").naturalWidth > 0);
@@ -63,7 +63,7 @@ async (page) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await navigate("/");
   await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "off");
-  assert(await page.locator(".hero-aurora").evaluate((element) => getComputedStyle(element).animationName) === "none",
+  assert(await page.locator("#hero-effects").isHidden() && await page.locator(".hero-motion-toggle").isHidden(),
     "reduced motion renders a static hero");
   assert(await page.locator("a[href^='mailto:']").count() === 0 && await page.getByText("联系邮箱待补").count() === 1,
     "example address has a visible placeholder with no mail link");
@@ -100,14 +100,36 @@ async (page) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await navigate("/");
   await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "on");
-  const aurora = page.locator(".hero-aurora");
-  await aurora.evaluate((element) => element.getAnimations().forEach((animation) => {
-    animation.pause();
-    animation.currentTime = 0;
-  }));
+  const effects = page.locator("#hero-effects");
+  const sample = () => effects.evaluate((canvas) => {
+    const small = document.createElement("canvas");
+    small.width = 72;
+    small.height = 48;
+    const context = small.getContext("2d");
+    context.drawImage(canvas, 0, 0, small.width, small.height);
+    const data = context.getImageData(0, 0, small.width, small.height).data;
+    return Array.from(data.filter((_, index) => index % 4 === 3));
+  });
+  const firstFrame = await sample();
   await page.screenshot({ path: output + "/motion-01.png" });
-  await aurora.evaluate((element) => element.getAnimations().forEach((animation) => { animation.currentTime = 12_000; }));
+  await page.waitForFunction(() => document.querySelector("#home").getBoundingClientRect().top === 0);
+  await page.waitForTimeout(1500);
+  const secondFrame = await sample();
+  const changed = secondFrame.filter((pixel, index) => Math.abs(pixel - firstFrame[index]) > 8).length;
+  assert(changed > 60, "aurora and reflections change location without pointer input");
   await page.screenshot({ path: output + "/motion-02.png" });
+
+  await page.getByRole("button", { name: "暂停动效" }).click();
+  const pausedFrame = await sample();
+  await page.waitForTimeout(350);
+  assert((await sample()).every((pixel, index) => pixel === pausedFrame[index]), "pause freezes the scene");
+  await page.getByRole("button", { name: "播放动效" }).click();
+  await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "on");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "off");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "on");
+  assert(true, "motion responds to preference changes without a reload");
 
   const fixture = await (await page.request.get(base + "/data/content.json")).json();
   const testImage = await (await page.request.get(base + await page.locator(".hero-landscape img").evaluate((el) => new URL(el.src).pathname))).body();

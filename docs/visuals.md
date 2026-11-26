@@ -2,6 +2,8 @@
 
 使用 Codex 内置 ImageGen 生成两张无文字图片，再分别压缩为 WebP。桌面素材是 `frontend/visuals/aurora-desktop.webp`，移动素材是 `frontend/visuals/aurora-mobile.webp`。
 
+首屏 Canvas 在独立素材上实时绘制流动极光、沿阶梯移动的光点和水面反光。动效自动播放，提供暂停按钮。系统启用减少动态效果时展示静态场景，首屏滚出或标签页隐藏时暂停绘制。
+
 ## 桌面提示
 
 > Use case: stylized-concept. Generate a photorealistic, original cinematic ENVIRONMENT ONLY for the desktop hero background of a Chinese creator's own portfolio. Ultra-wide 16:9 composition, no text, no web UI, no graphics. A cold almost-black navy sea at night, low distant horizon at 72% height with a little faint warm dusk on the right, delicate real starfield. On the RIGHT HALF a series of broad floating weathered slate slabs with thin warm amber light on their leading edges, near steps starting in the lower right, receding upward and curving gently toward the mid-right high in the sky. One small clearly recognizable person in dark coat stands on the steps in the right third at 68% height, back to us. Natural faint emerald aurora curtains sweep from the upper center to the right, with some translucent tendrils draping down to the stairs. The LEFT 44 percent stays low contrast near-black marine blue across the full height, no objects or bright spots, reserved for separately overlaid white Chinese typography. Carefully restrained light, cold navy and muted emerald with gold highlights, subtle film texture, a real night photo feeling rather than glossy CG. Distinct camera composition, natural coastal ocean surface and physically atmospheric depth. No letters, no logotype, no borders, no buttons. Wide landscape.

@@ -44,12 +44,13 @@
   <main id="main">
     <section class="hero" id="home" aria-labelledby="hero-title">
       <div class="hero-scene" aria-hidden="true">
-        <picture class="hero-landscape">
-          <source media="(max-width: 680px)" srcset="visuals/aurora-mobile.webp">
-          <img src="visuals/aurora-desktop.webp" width="1672" height="941" alt="" fetchpriority="high">
-        </picture>
-        <div class="hero-aurora"></div>
-        <canvas class="hero-particles" id="hero-particles"></canvas>
+        <div class="hero-world">
+          <picture class="hero-landscape">
+            <source media="(max-width: 680px)" srcset="visuals/aurora-mobile.webp">
+            <img src="visuals/aurora-desktop.webp" width="1672" height="941" alt="" fetchpriority="high">
+          </picture>
+          <canvas class="hero-effects" id="hero-effects"></canvas>
+        </div>
         <div class="hero-shade"></div>
       </div>
       <div class="container hero-inner">
@@ -74,6 +75,9 @@
           <li><strong>20+</strong><span>旅拍视频</span></li>
         </ul>
       </div>
+      <button class="hero-motion-toggle" type="button" aria-label="暂停动效" hidden>
+        <span aria-hidden="true"></span>
+      </button>
     </section>
 
     <!-- ===== 个人签名档（品牌 2.0 新增 · 独立 IP 模块） ===== -->
