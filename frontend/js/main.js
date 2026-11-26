@@ -1,0 +1,269 @@
+/* ============================================================
+   艾思力个人网页 · 数据驱动渲染 + 交互逻辑
+   内容来源：data/content.json（由后台管理系统维护）
+   ============================================================ */
+
+(function () {
+  "use strict";
+
+  var CONTENT = null;      // 全站内容数据
+  var VIDEOS = {};         // 视频播放源（来自 content.json）
+  var revealIO = null;     // 滚动显现动画观察器
+
+  var views = window.SiteViews;
+  var esc = views.escape;
+
+  /* ---------- 渲染：站点信息（标题 / 品牌 / 页脚） ---------- */
+  function renderSite(site) {
+    document.title = site.pageTitle || document.title;
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", site.description || "");
+    var metaAuthor = document.querySelector('meta[name="author"]');
+    if (metaAuthor) metaAuthor.setAttribute("content", site.author || "");
+    var ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", site.pageTitle || "");
+    var ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute("content", site.ogDescription || "");
+
+    document.getElementById("brand-mark").textContent = site.brandMark || "艾";
+    document.getElementById("brand-name").textContent = site.brandName || "";
+    var tagline = document.getElementById("brand-tagline");
+    if (tagline) tagline.textContent = site.brandTagline || "TECH · TRAVEL · TRUTH";
+
+    // 页脚
+    var footerTag = document.getElementById("footer-tag");
+    if (footerTag) footerTag.textContent = site.footerTag || "TECH · TRAVEL · TRUTH";
+    document.getElementById("footer-text").textContent = site.footerText || "";
+
+    var links = document.getElementById("footer-links");
+    if (links) links.innerHTML = views.socialLinks(site.socialLinks);
+  }
+
+  /* ---------- 渲染：Hero ---------- */
+  function renderHero(hero) {
+    var eyebrow = document.getElementById("hero-eyebrow");
+    if (eyebrow) eyebrow.textContent = hero.eyebrow || "";
+    var title = document.getElementById("hero-title");
+    if (title) {
+      title.innerHTML = esc(hero.titlePrefix || "") + '<span class="hero-name" id="hero-highlight">' + esc(hero.titleHighlight || "") + "</span>";
+    }
+    var subtitle = document.getElementById("hero-subtitle");
+    if (subtitle) subtitle.textContent = hero.subtitle || "";
+
+    var actions = document.getElementById("hero-actions");
+    if (actions) {
+      var primary = hero.primaryBtn || {};
+      var secondary = hero.ghostBtn || {};
+      actions.innerHTML =
+        '<a class="btn btn-primary" href="' + esc(views.link(primary.href) || "#projects") + '">' + esc(primary.text || "浏览我的项目") + '</a>' +
+        '<a class="btn btn-ghost" href="' + esc(views.link(secondary.href) || "#videos") + '">' + esc(secondary.text || "观看旅拍视频") + '</a>';
+    }
+
+    var stats = document.getElementById("hero-stats");
+    if (stats) {
+      stats.innerHTML = (hero.stats || [])
+        .map(function (s) {
+          return "<li><strong>" + esc(s.num) + "</strong><span>" + esc(s.label) + "</span></li>";
+        })
+        .join("");
+    }
+  }
+
+  /* ---------- 渲染：区块头部（tag / title / desc） ---------- */
+  function renderSectionHead(sectionId, data) {
+    var sec = document.getElementById(sectionId);
+    if (!sec) return;
+    var tag = sec.querySelector(".section-tag");
+    var title = sec.querySelector(".section-title");
+    var desc = sec.querySelector(".section-desc");
+    if (tag && data.tag != null) tag.textContent = data.tag;
+    if (title && data.title != null) title.textContent = data.title;
+    if (desc && data.desc != null) desc.textContent = data.desc;
+    var more = sec.querySelector(".section-more");
+    if (more) {
+      var a = more.querySelector("a");
+      if (a && data.moreText != null) a.textContent = data.moreText;
+      if (a && data.moreHref != null) a.setAttribute("href", views.link(data.moreHref) || a.getAttribute("href"));
+    }
+  }
+
+  function renderCards(gridId, items) {
+    document.getElementById(gridId).innerHTML = views.cards(items);
+  }
+
+  function renderCourses(listId, items) {
+    document.getElementById(listId).innerHTML = views.courses(items);
+  }
+
+  function renderVideos(videos) {
+    document.getElementById("video-grid").innerHTML = views.videoCards(videos.items, VIDEOS);
+  }
+
+  /* ---------- 渲染：关于我 ---------- */
+  function renderAbout(about) {
+    document.getElementById("about-tag").textContent = about.tag || "";
+    document.getElementById("about-title").textContent = about.title || "";
+    document.getElementById("about-text").textContent = about.text || "";
+
+    var avatar = document.getElementById("about-avatar");
+    if (views.asset(about.avatarImage)) {
+      avatar.innerHTML = '<img src="' + esc(views.asset(about.avatarImage)) + '" alt="头像" loading="lazy">';
+      avatar.classList.add("avatar-img");
+    } else {
+      avatar.textContent = about.avatar || "艾";
+      avatar.classList.remove("avatar-img");
+    }
+
+    document.getElementById("about-tags").innerHTML = (about.tags || [])
+      .map(function (t) { return "<li>" + esc(t) + "</li>"; })
+      .join("");
+
+    var contact = document.getElementById("about-contact");
+    var c = about.contact || {};
+    contact.innerHTML = views.contactDetails(c);
+  }
+
+  /* ---------- 主渲染入口 ---------- */
+  function renderAll() {
+    // 每个渲染步骤独立 try/catch：单点数据异常不再拖垮整页
+    var steps = [
+      ["site", function () { renderSite(CONTENT.site); }],
+      ["hero", function () { renderHero(CONTENT.hero); }],
+      ["projects-head", function () { renderSectionHead("projects", CONTENT.projects); }],
+      ["projects-cards", function () { renderCards("project-grid", CONTENT.projects.items); }],
+      ["courses-head", function () { renderSectionHead("courses", CONTENT.courses); }],
+      ["courses-list", function () { renderCourses("course-list", CONTENT.courses.items); }],
+      ["videos-head", function () { renderSectionHead("videos", CONTENT.videos); }],
+      ["videos-grid", function () { renderVideos(CONTENT.videos); }],
+      ["unboxing-head", function () { renderSectionHead("unboxing", CONTENT.unboxing); }],
+      ["unboxing-cards", function () { renderCards("unboxing-grid", CONTENT.unboxing.items); }],
+      ["about", function () { renderAbout(CONTENT.about); }]
+    ];
+    steps.forEach(function (s) {
+      try { s[1](); } catch (err) { console.error("渲染失败 [" + s[0] + "]:", err); }
+    });
+
+    // 渲染完成后，为新内容重新挂载滚动显现动画与导航高亮
+    observeReveals(document.getElementById("main"));
+  }
+
+  /* ---------- 加载内容 ---------- */
+  function loadContent() {
+    // 检测 file:// 协议——浏览器禁止 file:// 下的 fetch
+    var isFile = location.protocol === "file:";
+    if (isFile) {
+      showFileProtocolHelp();
+      return;
+    }
+    // 管理后台预览模式：URL 带 ?draft=1 时读取本地草稿，不影响普通访客
+    if (/[?&]draft=1/.test(location.search)) {
+      try {
+        var draftRaw = JSON.parse(localStorage.getItem("as_cms_draft") || "null");
+        if (draftRaw && draftRaw.data && draftRaw.data.site) {
+          CONTENT = draftRaw.data;
+          VIDEOS = (CONTENT.videos && CONTENT.videos.sources) || {};
+          renderAll();
+          return;
+        }
+      } catch (e) { /* 草稿损坏则回落到正常 fetch */ }
+    }
+    views.loadContent("data/content.json")
+      .then(function (data) {
+        CONTENT = data;
+        VIDEOS = (data.videos && data.videos.sources) || {};
+        renderAll();
+      })
+      .catch(function (err) {
+        showLoadError(err);
+      });
+  }
+
+  function showLoadError(err) {
+    var p = document.createElement("div");
+    p.style.cssText =
+      "position:fixed;top:0;left:0;right:0;z-index:9999;background:#dc2626;color:#fff;" +
+      "padding:16px 20px;text-align:center;font-size:14px;font-family:system-ui,sans-serif;";
+    p.innerHTML =
+      '⚠️ 内容加载失败（data/content.json），当前显示的是备用内容。请检查文件是否已部署，或刷新页面重试。<br>' +
+      '<small style="opacity:.85;">错误详情：' + esc(String(err && err.message || err)) + '</small>';
+    document.body.prepend(p);
+    console.error("Content load error:", err);
+  }
+
+  /* file:// 协议下 fetch 必然失败，给出明确的打开方式指引 */
+  function showFileProtocolHelp() {
+    var overlay = document.createElement("div");
+    overlay.style.cssText =
+      "position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#f5f3ff,#fff);" +
+      "display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui,sans-serif;";
+    overlay.innerHTML =
+      '<div style="max-width:520px;background:#fff;border-radius:16px;padding:32px 28px;box-shadow:0 10px 40px rgba(0,0,0,.12);">' +
+      '  <div style="font-size:48px;margin-bottom:12px;">📂</div>' +
+      '  <h2 style="margin:0 0 12px;color:#111;font-size:22px;">不能用 file:// 协议直接打开页面</h2>' +
+      '  <p style="color:#555;line-height:1.7;margin:0 0 16px;">浏览器禁止 file:// 协议下的网络请求，所以双击 <code>index.html</code> 会显示空白。</p>' +
+      '  <div style="background:#f3f4f6;border-radius:10px;padding:14px 16px;margin-bottom:16px;">' +
+      '    <p style="margin:0 0 8px;color:#111;font-weight:600;">✅ 正确的打开方式（任选其一）：</p>' +
+      '    <ol style="margin:0;padding-left:20px;color:#333;line-height:1.9;">' +
+      '      <li><b>双击</b>项目目录里的 <code style="background:#fff;padding:1px 6px;border-radius:4px;">启动后台.command</code>（推荐，自动启动服务器并打开后台）</li>' +
+      '      <li>在终端运行：<code style="background:#fff;padding:1px 6px;border-radius:4px;">cd 项目目录 && npm run dev</code>，然后浏览器访问 <a href="http://localhost:8000/" style="color:#7c3aed;">http://localhost:8000/</a></li>' +
+      '      <li>直接访问线上：<a href="https://neryzhu1028.github.io/" target="_blank" style="color:#7c3aed;">neryzhu1028.github.io</a></li>' +
+      '    </ol>' +
+      '  </div>' +
+      '  <button onclick="location.href=\'http://localhost:8000/\'" style="background:#7c3aed;color:#fff;border:none;padding:12px 24px;border-radius:10px;font-size:15px;cursor:pointer;font-weight:600;">如果服务器已启动，点击这里</button>' +
+      '</div>';
+    document.body.appendChild(overlay);
+  }
+
+  /* ============================================================
+     以下为页面交互（与内容数据无关）
+     ============================================================ */
+
+  /* ---------- 滚动显现动画 ---------- */
+  function makeRevealObserver() {
+    if (!("IntersectionObserver" in window)) return null;
+    return new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealIO.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+  }
+
+  function observeReveals(root) {
+    if (!revealIO) revealIO = makeRevealObserver();
+    var els = (root || document).querySelectorAll(".reveal:not(.visible)");
+    els.forEach(function (el) {
+      if (revealIO) {
+        revealIO.observe(el);
+      } else {
+        el.classList.add("visible");
+      }
+    });
+  }
+
+  /* ---------- 顶部导航：滚动阴影 ---------- */
+  var header = document.getElementById("site-header");
+  function onScroll() {
+    if (window.scrollY > 8) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- 启动 ---------- */
+  observeReveals(document);
+  views.bindMobileNav();
+  views.bindVideoDialog(function (key) {
+    var item = (CONTENT?.videos?.items || []).find(function (record) { return record.key === key; });
+    return views.videoSource(VIDEOS, item);
+  });
+  loadContent();
+})();

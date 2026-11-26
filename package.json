@@ -1,0 +1,11 @@
+{
+  "name": "aceskills-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node frontend/build.mjs",
+    "serve": "python3 -m http.server 8000 --bind 127.0.0.1 --directory dist",
+    "dev": "npm run build && npm run serve"
+  },
+  "engines": { "node": ">=22" }
+}
