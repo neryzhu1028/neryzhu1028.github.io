@@ -74,6 +74,12 @@ async (page) => {
     await navigate("/" + route + "/");
     await visible(selector);
     await visible("[aria-current=page]");
+    if (route !== "about") {
+      const banner = page.locator(".page-hero-art");
+      await banner.evaluate((image) => image.decode());
+      assert(await banner.evaluate((image, slug) => image.naturalWidth > 0 &&
+        new URL(image.currentSrc).pathname.includes("/" + slug + "-banner."), route), route + " topic banner");
+    }
     await page.screenshot({ path: output + "/" + route + ".png" });
     await navigate("/" + route + "/index.html");
     await visible(selector);
