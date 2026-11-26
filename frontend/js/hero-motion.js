@@ -3,9 +3,8 @@
   const scene = hero?.querySelector(".hero-scene");
   const image = scene?.querySelector(".hero-landscape img");
   const canvas = document.getElementById("hero-effects");
-  const button = hero?.querySelector(".hero-motion-toggle");
   const context = canvas?.getContext("2d");
-  if (!scene || !image || !button || !context) return;
+  if (!scene || !image || !context) return;
 
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const mobile = matchMedia("(max-width: 680px)");
@@ -81,7 +80,6 @@
   let offsetX = 0;
   let offsetY = 0;
   let inView = false;
-  let paused = false;
   let frame = 0;
   let renderedAt = 0;
   let elapsed = 0;
@@ -211,9 +209,8 @@
   }
 
   function syncMotion() {
-    const active = inView && !document.hidden && !reduce.matches && !paused && !!viewportWidth;
+    const active = inView && !document.hidden && !reduce.matches && !!viewportWidth;
     scene.dataset.motion = active ? "on" : "off";
-    button.hidden = reduce.matches || !viewportWidth;
     if (active && !frame) frame = requestAnimationFrame(tick);
     if (!active && frame) {
       cancelAnimationFrame(frame);
@@ -234,12 +231,6 @@
     syncMotion();
   }
 
-  button.addEventListener("click", () => {
-    paused = !paused;
-    button.toggleAttribute("data-paused", paused);
-    button.setAttribute("aria-label", paused ? "播放动效" : "暂停动效");
-    syncMotion();
-  });
   hero.addEventListener("pointermove", (event) => {
     if (!pointer.matches || scene.dataset.motion !== "on") return;
     const rect = hero.getBoundingClientRect();

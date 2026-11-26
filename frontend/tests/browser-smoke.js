@@ -63,7 +63,7 @@ async (page) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await navigate("/");
   await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "off");
-  assert(await page.locator("#hero-effects").isHidden() && await page.locator(".hero-motion-toggle").isHidden(),
+  assert(await page.locator("#hero-effects").isHidden(),
     "reduced motion renders a static hero");
   assert(await page.locator("a[href^='mailto:']").count() === 0 && await page.getByText("联系邮箱待补").count() === 1,
     "example address has a visible placeholder with no mail link");
@@ -119,12 +119,7 @@ async (page) => {
   assert(changed > 60, "aurora and reflections change location without pointer input");
   await page.screenshot({ path: output + "/motion-02.png" });
 
-  await page.getByRole("button", { name: "暂停动效" }).click();
-  const pausedFrame = await sample();
-  await page.waitForTimeout(350);
-  assert((await sample()).every((pixel, index) => pixel === pausedFrame[index]), "pause freezes the scene");
-  await page.getByRole("button", { name: "播放动效" }).click();
-  await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "on");
+  assert(await page.locator(".hero-motion-toggle").count() === 0, "hero has no motion button");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.waitForFunction(() => document.querySelector(".hero-scene").dataset.motion === "off");
   await page.emulateMedia({ reducedMotion: "no-preference" });

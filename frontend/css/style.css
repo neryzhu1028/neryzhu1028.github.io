@@ -1874,40 +1874,6 @@ button {
     linear-gradient(90deg, rgba(5, 16, 20, 0.89) 0%, rgba(5, 16, 20, 0.64) 32%, transparent 71%);
 }
 
-.hero-motion-toggle {
-  position: absolute;
-  right: max(24px, calc((100vw - var(--container)) / 2 + 24px));
-  bottom: clamp(30px, 7vh, 90px);
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--color-glass-border);
-  border-radius: 100%;
-  background: rgba(7, 21, 25, 0.7);
-  color: var(--color-light);
-}
-
-.hero-motion-toggle[hidden] { display: none; }
-.hero-motion-toggle:hover { background: #25453f; }
-
-.hero-motion-toggle span {
-  width: 12px;
-  height: 13px;
-  border-inline: 3px solid currentColor;
-  border-radius: 1px;
-}
-
-.hero-motion-toggle[data-paused] span {
-  width: 0;
-  height: 0;
-  border: 0;
-  border-block: 7px solid transparent;
-  border-left: 10px solid currentColor;
-  border-radius: 0;
-  margin-left: 3px;
-}
-
 @media (min-width: 681px) and (max-aspect-ratio: 5/4) {
   .hero-landscape img { object-position: 94% 56%; }
 }
@@ -2065,8 +2031,7 @@ button {
       linear-gradient(0deg, rgba(5, 17, 21, 0.94), transparent 34%),
       linear-gradient(180deg, rgba(5, 15, 18, 0.75), rgba(5, 15, 18, 0.43) 45%, transparent 68%);
   }
-  .hero-stats { align-self: end; gap: 12px 18px; margin-right: 54px; }
-  .hero-motion-toggle { bottom: 24px; right: 20px; }
+  .hero-stats { align-self: end; gap: 12px 18px; }
   .hero-stats li { flex-direction: column; gap: 5px; }
   .hero-stats strong { font-size: 18px; }
   .hero-stats span { font-size: 11px; }
